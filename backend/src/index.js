@@ -1,4 +1,5 @@
 import express from "express";
+import path from "path";
 import {app,server} from "./lib/socket.js"
 const port = 3000
 const _dirname=path.resolve();
@@ -11,7 +12,7 @@ import authRoutes from "./routes/auth.route.js";
 import messageRoutes from "./routes/message.route.js";
 import { connectDB } from "./lib/db.js";
 import cors from "cors";
-import path from "path";
+
 app.use(cors({
   origin: "http://localhost:5173",
   credentials: true,
