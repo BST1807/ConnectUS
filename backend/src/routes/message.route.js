@@ -7,5 +7,11 @@ const router = express.Router();
 router.get("/users",protectRoute, getUsersForSidebar)
 router.get("/:id",protectRoute,getMessage)
 
+router.get("/", (req, res) => {
+  res.status(400).json({ message: "Missing message ID!" });
+});
+
+
+
 router.post("/send/:id",protectRoute,sendMessage);
 export default router;
