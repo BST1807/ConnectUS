@@ -5,11 +5,17 @@ import { getUsersForSidebar, getMessage ,sendMessage} from "../controllers/messa
 const router = express.Router();
 
 router.get("/users",protectRoute, getUsersForSidebar)
-router.get("/:id",protectRoute,getMessage)
 
 router.get("/", (req, res) => {
   res.status(400).json({ message: "Missing message ID!" });
 });
+
+
+
+
+
+router.get("/:id",protectRoute,getMessage)
+
 
 
 
