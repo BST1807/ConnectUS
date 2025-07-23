@@ -14,7 +14,13 @@ router.get("/", (req, res) => {
 
 
 
-router.get("/:id",protectRoute,getMessage)
+// Match only valid MongoDB ObjectId (24 hex chars)
+router.get("/:id([a-fA-F0-9]{24})", protectRoute, getMessage);
+
+// Catch bad /:id calls
+router.get("/:invalidId", (req, res) => {
+  res.status(400).json({ error: "Invalid message ID format." });
+});
 
 
 

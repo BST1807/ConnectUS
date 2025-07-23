@@ -18,6 +18,14 @@ app.use(cors({
   credentials: true,
 
 }))
+
+// Log every incoming request for debugging
+app.use((req, res, next) => {
+  console.log(`[${req.method}] ${req.originalUrl}`);
+  next();
+});
+
+
 app.use("/api/auth",authRoutes);
 app.use("/api/messages",messageRoutes);
 
