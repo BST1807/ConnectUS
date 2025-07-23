@@ -1,23 +1,24 @@
 import express from "express";
 import { protectRoute } from "../middleware/auth.middleware.js";
-import { getUsersForSidebar, getMessage ,sendMessage } from "../controllers/message.controller.js";
+import { getUsersForSidebar, getMessage, sendMessage } from "../controllers/message.controller.js";
 
 const router = express.Router();
 
 router.get("/users", protectRoute, getUsersForSidebar);
 
-router.get("/", (req, res) => {
-  res.status(400).json({ message: "Missing message ID!" });
-});
+// ✅ One single dynamic route. Validate inside.
+router.get("/:id", protectRoute, (req, res, next) => {
+  const { id } = req.params;
 
-// ✅ Only one param route — regex handles valid ID
-router.get("/:id([a-fA-F0-9]{24})", protectRoute, getMessage);
+  // Check for valid MongoDB ObjectId
+  if (!/^[a-fA-F0-9]{24}$/.test(id)) {
+    return res.status(400).json({ error: "Invalid message ID format." });
+  }
+
+  // OK → continue
+  return getMessage(req, res, next);
+});
 
 router.post("/send/:id", protectRoute, sendMessage);
-
-// ✅ 404 fallback for unknown routes
-router.use((req, res) => {
-  res.status(404).json({ error: "Route not found." });
-});
 
 export default router;
